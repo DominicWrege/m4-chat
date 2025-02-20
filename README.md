@@ -23,11 +23,11 @@ mvn verify
 ## Environment Variables
 
 You need an OpenAI API key to use this application. Get one from OpenAI and set it before running the app.
-This application uses SQLite for storing chat history. Ensure that the DATABASE_FILE environment variable is correctly set to a writable SQLite database file.
+This application uses SQLite for storing chat history. Ensure that the Path to DATABASE_FILE environment variable is correctly set to a writable SQLite database file.
 
 ```
 OPENAI_API_KEY=xxxxxxxxxxx
-DATABASE_FILE=database.db
+DATABASE_FILE=./database.db
 ```
 
 ## 🏗 Build & Run with Docker
