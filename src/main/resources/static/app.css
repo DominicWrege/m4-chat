@@ -1,0 +1,56 @@
+/* Define application theme */
+
+/* :root {
+  --dwc-color-primary-h: 277;
+  --dwc-color-primary-s: 50%;
+} */
+
+dwc-app-layout {
+  --dwc-app-layout-header-height: 60px;
+  --dwc-app-layout-drawer-width: 20em;
+}
+
+pre {
+  background-color: var(--dwc-color-gray-95);
+  padding: 1.25em 1.5em;
+  margin: 0 0.5em;
+  border-radius: 0.2em;
+  overflow: auto;
+}
+
+:root {
+  --chat-max-width: 950px;
+}
+
+.loader-dots {
+  margin-left: 1em;
+  width: 3em;
+  aspect-ratio: 2;
+  --dot-color: var(
+    --dwc-color-default-70,
+    #424242
+  ); /* Set your preferred color */
+  --_g: no-repeat
+    radial-gradient(circle closest-side, var(--dot-color) 90%, #0000);
+  background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
+  background-size: calc(100% / 3) 50%;
+  animation: l3 800ms infinite linear;
+}
+@keyframes l3 {
+  20% {
+    background-position: 0% 0%, 50% 50%, 100% 50%;
+  }
+  40% {
+    background-position: 0% 100%, 50% 0%, 100% 50%;
+  }
+  60% {
+    background-position: 0% 50%, 50% 100%, 100% 0%;
+  }
+  80% {
+    background-position: 0% 50%, 50% 50%, 100% 100%;
+  }
+}
+
+.delete-button::part(label) {
+  --dwc-space-xs: 0.5em;
+}
