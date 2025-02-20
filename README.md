@@ -1,8 +1,10 @@
-# webforJ SideMenu Archetype
+# 🗨️ M4 Chat (powered by webforj)
 
-Welcome to the webforJ SideMenu Archetype! This project provides a simple skeleton to help you kickstart your app development with ease.
+An other **ChatGPT** chat UI built with [webforj](https://webforj.com/), **Java 21** and **SQlite**.
 
-## How to Run
+## ✈ How to Run
+
+⚠️ Important: Set Environment Variables First!
 
 To get started with this archetype, open the project in your IDE and run the following command to start the development server:
 
@@ -10,13 +12,42 @@ To get started with this archetype, open the project in your IDE and run the fol
 mvn jetty:run
 ```
 
-## Running Integration Tests
+### Running Integration Tests
 
 To run the integration tests, use the following command:
 
 ```bash
 mvn verify
 ```
+
+## Environment Variables
+
+You need an OpenAI API key to use this application. Get one from OpenAI and set it before running the app.
+This application uses SQLite for storing chat history. Ensure that the DATABASE_FILE environment variable is correctly set to a writable SQLite database file.
+
+```
+OPENAI_API_KEY=xxxxxxxxxxx
+DATABASE_FILE=database.db
+```
+
+## 🏗 Build & Run with Docker
+
+```bash
+docker build -t m4-chat-app:1.0 .
+docker run -p 8080:8080 \
+    -e OPENAI_API_KEY="your-api-key" \
+    -e DATABASE_FILE="/data/m4-chat.db" \
+    m4-chat-app:1.0
+```
+
+## 📌 Features
+
+✅ **AI-Powered Chat** with OpenAI's ChatGPT API  
+✅ **Simple and Lightweight** design  
+✅ **Database Persistence** for chat history  
+✅ **Dockerized** for easy deployment
+
+---
 
 ## Documentation
 
