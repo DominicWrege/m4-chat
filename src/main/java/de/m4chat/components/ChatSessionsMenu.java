@@ -133,7 +133,7 @@ public class ChatSessionsMenu {
 
       var component = (ChatView) event.getContext().getComponent();
       component.initComponents(session);
-      Page.getCurrent().executeJsAsync("scrollChat('instant')");
+      Page.getCurrent().executeJs("scrollToBottom('instant')");
     });
   }
 

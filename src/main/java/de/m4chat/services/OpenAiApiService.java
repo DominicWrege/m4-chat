@@ -4,17 +4,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import de.m4chat.components.UserChatItem;
 import de.m4chat.events.ChatResponseEvent;
+import de.m4chat.models.ChatMessage;
 import de.m4chat.models.ModelInfo;
 
 import io.github.sashirestela.cleverclient.client.OkHttpClientAdapter;
 import io.github.sashirestela.openai.SimpleOpenAI;
 import io.github.sashirestela.openai.base.RealtimeConfig;
 import io.github.sashirestela.openai.domain.chat.Chat;
-import io.github.sashirestela.openai.domain.chat.ChatMessage;
 import io.github.sashirestela.openai.domain.chat.ChatMessage.SystemMessage;
 import io.github.sashirestela.openai.domain.chat.ChatMessage.UserMessage;
 import io.github.sashirestela.openai.domain.chat.ChatRequest;
@@ -22,8 +26,16 @@ import okhttp3.OkHttpClient;
 
 public class OpenAiApiService {
 
-  private ArrayList<ChatMessage> userMessages = new ArrayList<>();
+  private ArrayList<UserMessage> userMessages;
   private static final Logger logger = LogManager.getLogger(OpenAiApiService.class);
+
+  public OpenAiApiService(List<ChatMessage> userMessages) {
+    this.userMessages = userMessages
+        .stream()
+        .filter(m -> m.getType().equals("user"))
+        .map(m -> UserMessage.of(m.getContent()))
+        .collect(Collectors.toCollection(ArrayList::new));
+  }
 
   public static List<ModelInfo> availableModels = Arrays.asList(
       new ModelInfo("gpt-4-turbo", true, 0.2),
@@ -72,18 +84,17 @@ public class OpenAiApiService {
   }
 
   public void writeMessage(String message, ModelInfo model, ChatResponseEvent event) {
-    var newUserMessage = UserMessage.of(message);
-    this.userMessages.add(newUserMessage);
+    this.userMessages.add(UserMessage.of(message));
     try {
       var chatRequestBuilder = ChatRequest.builder()
           .model(model.name())
           .messages(this.userMessages)
           .temperature(model.temperature())
-          .maxCompletionTokens(500);
+          .maxCompletionTokens(750);
 
       if (model.supportsSystemMessages()) {
         chatRequestBuilder.message(SystemMessage
-            .of("You are an expert in AI. Help the user as much as you can. Keep answers relatively short"));
+            .of("You are an helpful friendly assistant. Your are an expert in computer science but also in other topics. Help the user as much as you can. Strive to be helpful and informative while keeping your answers brief and to the point."));
       }
 
       var futureChat = OpenAiApiService.openAI.chatCompletions().createStream(chatRequestBuilder.build());

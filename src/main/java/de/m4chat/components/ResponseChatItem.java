@@ -60,7 +60,7 @@ public class ResponseChatItem extends Composite<Div> {
     buffer.append(text);
     Node document = parser.parse(buffer.toString());
     this.container.setHtml(this.htmlRenderer.render(document));
-    this.container.executeJsVoidAsync("scrollChat()");
+    this.container.executeJs("scrollToBottom()");
     this.container.executeJsVoidAsync("highlightCode()");
   }
 

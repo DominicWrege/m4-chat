@@ -1,12 +1,16 @@
 package de.m4chat.components;
 
+import de.m4chat.models.ChatMessage;
 import de.m4chat.models.ChatSession;
 import de.m4chat.services.ChatSessionService;
+
+import java.util.List;
 
 import com.webforj.Page;
 import com.webforj.annotation.InlineStyleSheet;
 import com.webforj.component.Component;
 import com.webforj.component.Composite;
+import com.webforj.component.element.Element;
 import com.webforj.component.html.elements.Div;
 import com.webforj.component.window.Window;
 
@@ -32,9 +36,13 @@ import com.webforj.component.window.Window;
 public class ChatList extends Composite<Div> {
   private Div self = getBoundComponent();
   private ChatSession chatSession;
+  private Element ee = new Element();
 
-  public ChatList(ChatSession chatSession) {
-    this.chatSession = chatSession;
+  private List<ChatMessage> messages;
+
+  public ChatList(ChatSession session, List<ChatMessage> messages) {
+    this.chatSession = session;
+    this.messages = messages;
     self.addClassName("chat-list");
   }
 
@@ -44,18 +52,27 @@ public class ChatList extends Composite<Div> {
     this.drawMessages();
   }
 
-  public void addMessage(Component item) {
-    self.add(item);
+  public void addResponseMessage(ResponseChatItem item) {
+    this.addMessage(item);
     Page.getCurrent().executeJsVoidAsync("highlightCode()");
   }
 
+  public void addMessageUserMessage(UserChatItem item) {
+    this.addMessage(item);
+  }
+
+  private void addMessage(Component component) {
+    self.add(component);
+    Page.getCurrent().executeJs("scrollToBottom()");
+  }
+
   private void drawMessages() {
-    ChatSessionService
-        .getInstance()
-        .getMessageForSession(chatSession.getId()).stream()
-        .map(item -> item.getType().equals("user")
-            ? new UserChatItem(item.getContent())
-            : new ResponseChatItem(this.chatSession.getId(), item.getContent()))
-        .forEach(this::addMessage);
+    for (ChatMessage chatMessage : messages) {
+      if (chatMessage.getType().equals("user")) {
+        addMessageUserMessage(new UserChatItem(chatMessage.getContent()));
+      } else {
+        addResponseMessage(new ResponseChatItem(this.chatSession.getId(), chatMessage.getContent()));
+      }
+    }
   }
 }

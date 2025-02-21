@@ -1,4 +1,4 @@
-function scrollChat(behavior = "smooth") {
+function scrollToBottom(behavior = "smooth") {
   const chatList = document.querySelector("div.chat-list");
   if (chatList) {
     chatList.scrollTo({ top: chatList.scrollHeight, behavior });

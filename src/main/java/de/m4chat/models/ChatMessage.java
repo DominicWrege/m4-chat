@@ -2,8 +2,6 @@ package de.m4chat.models;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.UUID;
 
 public class ChatMessage {

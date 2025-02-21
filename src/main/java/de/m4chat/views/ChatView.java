@@ -57,7 +57,12 @@ public class ChatView extends Composite<FlexLayout> implements HasFrameTitle {
 
   public void initComponents(ChatSession session) {
     this.currentChatSession = session;
-    this.openAiApiService = new OpenAiApiService();
+    var messages = ChatSessionService
+        .getInstance()
+        .getMessageForSession(session.getId())
+        .stream()
+        .toList();
+    this.openAiApiService = new OpenAiApiService(messages);
     logger.info("init chat view with sessionId: {}", session.getId());
     this.interruptCurrentThreads();
     self.getComponents().forEach(c -> self.remove(c));
@@ -66,21 +71,20 @@ public class ChatView extends Composite<FlexLayout> implements HasFrameTitle {
         .setSpacing("0")
         .addClassName("chat-view");
 
-    this.chatList = new ChatList(session);
+    this.chatList = new ChatList(session, messages);
     this.self.add(this.chatList);
     var userInput = new PromptInput();
     this.self.add(userInput);
     userInput.onSubmit(this::handleSubmit);
-
   }
 
   private void handleSubmit(String userMessage) {
     var chatDb = ChatSessionService.getInstance();
     chatDb.insertUserMessage(this.currentChatSession.getId(), userMessage);
-    this.chatList.addMessage(new UserChatItem(userMessage));
+    this.chatList.addMessageUserMessage(new UserChatItem(userMessage));
 
     var chatItem = new ResponseChatItem(this.currentChatSession.getId());
-    this.chatList.addMessage(chatItem);
+    this.chatList.addResponseMessage(chatItem);
     var model = UserService.getInstance().getSelectedModel(this.currentChatSession.getUserId());
     logger.info("[session: {}] Using Model: {}", chatItem.getSessionUuid(), model);
     logger.info("[session: {}] User Message: {}", chatItem.getSessionUuid(), userMessage);
