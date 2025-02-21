@@ -12,7 +12,7 @@ dwc-app-layout {
 }
 
 pre {
-  background-color: light-dark(var(--dwc-color-gray-70), #2e3440);
+  background-color: light-dark(#f6f6f6, #2e3440);
   border-radius: 0.2em;
   overflow: auto;
 }
