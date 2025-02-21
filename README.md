@@ -40,6 +40,12 @@ docker run -p 8080:8080 \
     m4-chat-app:1.0
 ```
 
+or pull existing [docker image](https://hub.docker.com/repository/docker/dominicwrege/m4-chat/general)
+
+```bash
+docker pull dominicwrege/m4-chat:latest
+```
+
 ## 📌 Features
 
 ✅ **AI-Powered Chat** with OpenAI's ChatGPT API  
