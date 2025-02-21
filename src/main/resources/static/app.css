@@ -8,17 +8,21 @@
 dwc-app-layout {
   --dwc-app-layout-header-height: 60px;
   --dwc-app-layout-drawer-width: 20em;
+  --code-padding: 1em;
 }
 
 pre {
-  background-color: var(--dwc-color-gray-85);
-  margin: 0 0.5em;
+  background-color: light-dark(var(--dwc-color-gray-70), #2e3440);
   border-radius: 0.2em;
   overflow: auto;
 }
 
+pre:not(:has(code.hljs)) {
+  padding: var(--code-padding);
+}
+
 pre code.hljs {
-  padding: 0.6em;
+  padding: var(--code-padding);
 }
 
 :root {
