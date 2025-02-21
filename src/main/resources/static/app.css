@@ -11,11 +11,14 @@ dwc-app-layout {
 }
 
 pre {
-  background-color: var(--dwc-color-gray-95);
+  background-color: var(--dwc-color-gray-85);
   margin: 0 0.5em;
   border-radius: 0.2em;
-  padding: 0.6em;
   overflow: auto;
+}
+
+pre code.hljs {
+  padding: 0.6em;
 }
 
 :root {
