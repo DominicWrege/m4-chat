@@ -26,10 +26,10 @@ public interface ChatSessionDao extends BaseDao {
   @SqlUpdate("INSERT INTO chatsession (id, userId) VALUES (:id, :userId)")
   void insertChatSession(@BindBean ChatSession chatSession);
 
-  @SqlUpdate("DELETE from chatsession where userId = :userId)")
+  @SqlUpdate("DELETE from chatsession where userId = :userId")
   void clearSessionForUser(@Bind("userId") UUID userId);
 
-  @SqlQuery("SELECT * FROM chatsession WHERE userId = :userId ORDER BY created DESC")
+  @SqlQuery("SELECT id, userId, created FROM chatsession WHERE userId = :userId ORDER BY created DESC")
   List<ChatSession> getChatSessionsForUser(@Bind("userId") UUID userId);
 
   @SqlQuery("SELECT id, userId, created  FROM chatsession WHERE id = :sessionId")

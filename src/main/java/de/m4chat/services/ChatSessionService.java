@@ -9,6 +9,8 @@ import de.m4chat.models.ChatSession;
 import java.util.List;
 import java.util.UUID;
 
+import com.basis.server.local.generic.vkeyed.Page;
+
 public class ChatSessionService {
 
   private final ChatSessionDao chatSessionDao;
@@ -44,6 +46,9 @@ public class ChatSessionService {
   }
 
   private void insertMessage(ChatMessage message) {
+    if (message.getContent().isBlank()) {
+      return;
+    }
     chatMessageDao.insertMessage(message);
   }
 

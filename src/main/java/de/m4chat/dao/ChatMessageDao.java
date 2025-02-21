@@ -28,6 +28,11 @@ public interface ChatMessageDao extends BaseDao {
   @SqlUpdate("INSERT INTO chatmessage (id, sessionId, type, content) VALUES (:id, :sessionId, :type, :content)")
   void insertMessage(@BindBean ChatMessage message);
 
-  @SqlQuery("SELECT id, sessionId, type, content, created FROM chatmessage WHERE sessionId = :sessionId ORDER BY created ASC")
+  @SqlQuery("""
+      SELECT id, sessionId, type, content, created
+      FROM chatmessage
+      WHERE sessionId = :sessionId AND content <> ''
+      ORDER BY created ASC
+      """)
   List<ChatMessage> getMessagesBySession(@Bind("sessionId") UUID sessionId);
 }

@@ -2,6 +2,7 @@ package de.m4chat.components;
 
 import org.commonmark.renderer.html.HtmlRenderer;
 
+import com.webforj.Page;
 import com.webforj.annotation.InlineStyleSheet;
 import com.webforj.component.Composite;
 import com.webforj.component.element.Element;
@@ -30,8 +31,8 @@ public class ResponseChatItem extends Composite<Div> {
   Element container = new Element("div");
   private Element loadingElement = new Element().addClassName("loader-dots");
 
-  Parser parser = Parser.builder().build();
-  HtmlRenderer htmlRenderer = HtmlRenderer.builder().escapeHtml(true).build();
+  private Parser parser = Parser.builder().build();
+  private static HtmlRenderer htmlRenderer = HtmlRenderer.builder().escapeHtml(true).build();
 
   private UUID currentSessionId;
 
@@ -59,8 +60,11 @@ public class ResponseChatItem extends Composite<Div> {
     }
     buffer.append(text);
     Node document = parser.parse(buffer.toString());
-    this.container.setHtml(this.htmlRenderer.render(document));
+    this.container.setHtml(htmlRenderer.render(document));
     this.container.executeJs("scrollToBottom()");
+  }
+
+  public void highlightCode() {
     this.container.executeJsVoidAsync("highlightCode()");
   }
 

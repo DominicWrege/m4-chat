@@ -14,6 +14,7 @@ pre {
   background-color: var(--dwc-color-gray-95);
   margin: 0 0.5em;
   border-radius: 0.2em;
+  padding: 0.6em;
   overflow: auto;
 }
 

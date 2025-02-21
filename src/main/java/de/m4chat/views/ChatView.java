@@ -98,6 +98,8 @@ public class ChatView extends Composite<FlexLayout> implements HasFrameTitle {
 
       ChatSessionService.getInstance()
           .insertResponseMessage(chatItem.getSessionUuid(), chatItem.getText());
+      chatItem.highlightCode();
+
     });
     this.threads.add(thread);
 
