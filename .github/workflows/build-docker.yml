@@ -13,7 +13,6 @@ jobs:
       - name: Login to docker.io
         uses: docker/login-action@v3
         with:
-          registry: docker.io
           username: dominicwrege
           password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push
