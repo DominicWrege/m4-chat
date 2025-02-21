@@ -5,21 +5,33 @@ function scrollChat(behavior = "smooth") {
   }
 }
 
-const themeLink = document.createElement("link");
-themeLink.rel = "stylesheet";
-document.head.appendChild(themeLink);
+let themeLink = null;
 
-function updateTheme() {
-  const darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  themeLink.href = darkMode
-    ? "/static/highlight-dark.min.css"
-    : "/static/highlight.min.css";
-  window.hljs.highlightAll();
+function supportTheme() {
+  if (!themeLink) {
+    themeLink = document.createElement("link");
+    themeLink.rel = "stylesheet";
+    document.head.appendChild(themeLink);
+  }
+
+  function updateTheme() {
+    const darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    themeLink.href = darkMode
+      ? "/static/highlight-dark.min.css"
+      : "/static/highlight.min.css";
+  }
+
+  updateTheme();
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", updateTheme);
 }
 
-updateTheme();
-
-window
-  .matchMedia("(prefers-color-scheme: dark)")
-  .matchMedia("(prefers-color-scheme: light)")
-  .addEventListener("change", updateTheme);
+function highlightCode() {
+  if (!hljs) {
+    return;
+  }
+  document
+    .querySelectorAll(".chat-list pre code:not(.hljs)")
+    .forEach(hljs.highlightElement);
+}

@@ -46,7 +46,7 @@ public class ChatList extends Composite<Div> {
 
   public void addMessage(Component item) {
     self.add(item);
-    Page.getCurrent().executeJsVoidAsync("hljs.highlightAll()");
+    Page.getCurrent().executeJsVoidAsync("highlightCode()");
   }
 
   private void drawMessages() {

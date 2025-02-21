@@ -14,11 +14,13 @@ import de.m4chat.services.OpenAiApiService;
 import de.m4chat.services.UserService;
 import de.m4chat.services.ChatSessionService;
 
+import com.webforj.Page;
 import com.webforj.annotation.InlineStyleSheet;
 import com.webforj.component.Composite;
 
 import com.webforj.component.layout.flexlayout.FlexDirection;
 import com.webforj.component.layout.flexlayout.FlexLayout;
+import com.webforj.component.window.Window;
 import com.webforj.router.NavigationContext;
 import com.webforj.router.annotation.Route;
 import com.webforj.router.concern.HasFrameTitle;
@@ -41,6 +43,12 @@ public class ChatView extends Composite<FlexLayout> implements HasFrameTitle {
   private ChatSession currentChatSession;
 
   private ArrayList<Thread> threads = new ArrayList<>();
+
+  @Override
+  protected void onCreate(Window window) {
+    super.onCreate(window);
+    Page.getCurrent().executeJsVoidAsync("supportTheme()");
+  }
 
   @Override
   public String getFrameTitle(NavigationContext context, ParametersBag parameters) {

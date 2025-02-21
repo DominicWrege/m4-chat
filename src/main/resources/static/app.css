@@ -57,13 +57,3 @@ pre {
 #hljs-dark {
   display: none;
 }
-
-/* Apply dark theme when system is in dark mode */
-@media (prefers-color-scheme: dark) {
-  #hljs-light {
-    display: none;
-  }
-  #hljs-dark {
-    display: block;
-  }
-}

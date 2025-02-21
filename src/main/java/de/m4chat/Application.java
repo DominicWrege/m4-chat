@@ -12,8 +12,6 @@ import com.webforj.annotation.StyleSheet;
 
 @Routify(packages = "de.m4chat.views")
 @StyleSheet("ws://app.css")
-// @StyleSheet("ws://highlight.min.css")
-// @StyleSheet("ws://highlight-dark.min.css")
 @JavaScript("ws://highlight.min.js")
 @JavaScript("ws://app.js")
 @AppTitle("M4 Chat")
