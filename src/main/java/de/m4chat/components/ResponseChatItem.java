@@ -31,7 +31,7 @@ public class ResponseChatItem extends Composite<Div> {
   private Element loadingElement = new Element().addClassName("loader-dots");
 
   Parser parser = Parser.builder().build();
-  HtmlRenderer htmlRenderer = HtmlRenderer.builder().build();
+  HtmlRenderer htmlRenderer = HtmlRenderer.builder().escapeHtml(true).build();
 
   private UUID currentSessionId;
 
@@ -61,6 +61,7 @@ public class ResponseChatItem extends Composite<Div> {
     Node document = parser.parse(buffer.toString());
     this.container.setHtml(this.htmlRenderer.render(document));
     this.container.executeJsVoidAsync("scrollChat()");
+    this.container.executeJsVoidAsync("hljs.highlightAll()");
   }
 
   public String getText() {

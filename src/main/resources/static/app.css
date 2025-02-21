@@ -12,7 +12,7 @@ dwc-app-layout {
 
 pre {
   background-color: var(--dwc-color-gray-95);
-  padding: 1.25em 1.5em;
+  padding: 0.25em 0.5em;
   margin: 0 0.5em;
   border-radius: 0.2em;
   overflow: auto;
@@ -53,4 +53,18 @@ pre {
 
 .delete-button::part(label) {
   --dwc-space-xs: 0.5em;
+}
+
+#hljs-dark {
+  display: none;
+}
+
+/* Apply dark theme when system is in dark mode */
+@media (prefers-color-scheme: dark) {
+  #hljs-light {
+    display: none;
+  }
+  #hljs-dark {
+    display: block;
+  }
 }

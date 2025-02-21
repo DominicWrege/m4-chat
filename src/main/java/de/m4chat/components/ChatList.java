@@ -3,6 +3,7 @@ package de.m4chat.components;
 import de.m4chat.models.ChatSession;
 import de.m4chat.services.ChatSessionService;
 
+import com.webforj.Page;
 import com.webforj.annotation.InlineStyleSheet;
 import com.webforj.component.Component;
 import com.webforj.component.Composite;
@@ -45,6 +46,7 @@ public class ChatList extends Composite<Div> {
 
   public void addMessage(Component item) {
     self.add(item);
+    Page.getCurrent().executeJsVoidAsync("hljs.highlightAll()");
   }
 
   private void drawMessages() {
