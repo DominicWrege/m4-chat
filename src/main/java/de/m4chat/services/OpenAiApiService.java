@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.m4chat.components.UserChatItem;
 import de.m4chat.events.ChatResponseEvent;
 import de.m4chat.models.ChatMessage;
 import de.m4chat.models.ModelInfo;
