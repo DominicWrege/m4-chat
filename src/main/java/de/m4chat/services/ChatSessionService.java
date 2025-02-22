@@ -69,6 +69,9 @@ public class ChatSessionService {
   }
 
   public List<ChatMessage> getMessageForSession(UUID sessionId) {
-    return chatMessageDao.getMessagesBySession(sessionId);
+    return chatMessageDao.getMessagesBySession(sessionId)
+        .stream()
+        .filter(item -> !item.getContent().isBlank())
+        .toList();
   }
 }

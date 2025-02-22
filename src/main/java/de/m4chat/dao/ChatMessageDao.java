@@ -31,7 +31,7 @@ public interface ChatMessageDao extends BaseDao {
   @SqlQuery("""
       SELECT id, sessionId, type, content, created
       FROM chatmessage
-      WHERE sessionId = :sessionId AND content <> ''
+      WHERE sessionId = :sessionId
       ORDER BY created ASC
       """)
   List<ChatMessage> getMessagesBySession(@Bind("sessionId") UUID sessionId);

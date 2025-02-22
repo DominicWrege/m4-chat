@@ -63,9 +63,7 @@ public class ChatView extends Composite<FlexLayout> implements HasFrameTitle {
     this.currentChatSession = session;
     var messages = ChatSessionService
         .getInstance()
-        .getMessageForSession(session.getId())
-        .stream()
-        .toList();
+        .getMessageForSession(session.getId());
     this.openAiApiService = new OpenAiApiService(messages);
     logger.info("init chat view with sessionId: {}", session.getId());
     this.interruptCurrentThreads();

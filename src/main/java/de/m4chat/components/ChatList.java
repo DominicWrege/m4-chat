@@ -70,12 +70,11 @@ public class ChatList extends Composite<Div> {
   }
 
   private void drawMessages() {
-    for (ChatMessage chatMessage : messages) {
+    for (ChatMessage chatMessage : messages)
       if (chatMessage.getType().equals("user")) {
         addMessageUserMessage(new UserChatItem(chatMessage.getContent()));
       } else {
         addResponseMessage(new ResponseChatItem(this.chatSession.getId(), chatMessage.getContent()));
       }
-    }
   }
 }
