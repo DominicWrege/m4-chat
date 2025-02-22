@@ -25,6 +25,10 @@ import com.webforj.component.window.Window;
         max-width: var(--chat-max-width);
       }
 
+      .chat-list > div{
+        margin-bottom: 1.5rem;
+      }
+
       @media (max-width: 1030px) {
         .chat-list {
           margin: unset;
@@ -36,7 +40,6 @@ import com.webforj.component.window.Window;
 public class ChatList extends Composite<Div> {
   private Div self = getBoundComponent();
   private ChatSession chatSession;
-  private Element ee = new Element();
 
   private List<ChatMessage> messages;
 

@@ -89,15 +89,15 @@ public class PromptInput extends Composite<FlexLayout> {
         .setAttribute("contenteditable", "true")
         .setAttribute("role", "textbox")
         .addClassName("prompt-input");
-
     self.add(messageTextField);
+    this.messageTextField.executeJsAsync("addKeyboardSubmitShortCut()");
 
     var submitButton = new Button("", ButtonTheme.PRIMARY, e -> {
       this.fireSubmitEvent();
     })
         .setSuffixComponent(TablerIcon.create("send-2"))
-        .setExpanse(Expanse.XLARGE);
-
+        .setExpanse(Expanse.XLARGE)
+        .addClassName("submit-button");
     self.add(submitButton);
   }
 

@@ -14,13 +14,13 @@ import org.commonmark.node.*;
 import org.commonmark.parser.Parser;
 
 @InlineStyleSheet(/* css */"""
-      .chat-item {
+      .response-chat-item {
        min-width: 270px;
        padding: 1.2em 1.5em;
        background-color: var(--dwc-surface-3, #fff);
        border-radius: 0.5em;
        margin-right: auto;
-       margin-bottom: 2rem;
+       margin-left: 0.5em;
        max-width: 700px;
        filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.1));
       }
@@ -33,20 +33,20 @@ public class ResponseChatItem extends Composite<Div> {
 
   private Parser parser = Parser.builder().build();
   private static HtmlRenderer htmlRenderer = HtmlRenderer.builder().escapeHtml(true).build();
-
+  private final String cssClassName = "response-chat-item";
   private UUID currentSessionId;
 
   public ResponseChatItem(UUID sessionId) {
     this.currentSessionId = sessionId;
     var self = getBoundComponent();
-    self.addClassName("chat-item");
+    self.addClassName(this.cssClassName);
     this.container.add(loadingElement);
     self.add(this.container);
   }
 
   public ResponseChatItem(UUID sessionId, String text) {
     var self = getBoundComponent();
-    self.addClassName("chat-item");
+    self.addClassName(this.cssClassName);
     self.add(this.container);
     if (text.isEmpty()) {
       this.container.add(loadingElement);

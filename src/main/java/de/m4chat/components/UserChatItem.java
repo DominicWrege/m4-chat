@@ -9,8 +9,8 @@ import com.webforj.component.html.elements.Div;
       padding: 1em 1.4em;
       background: var(--dwc-color-default-90);
       margin-left: auto;
+      margin-right: 0.5em;
       border-radius: 1em;
-      margin-bottom: 2rem;
       max-width: 325px;
       filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.1));
       """)
