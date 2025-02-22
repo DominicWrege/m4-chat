@@ -16,6 +16,7 @@ import de.m4chat.services.OpenAiApiService;
 import de.m4chat.services.UserService;
 import de.m4chat.services.ChatSessionService;
 
+import com.basis.bbj.web.gwt.client.awt.BusyIndicator;
 import com.webforj.Page;
 import com.webforj.annotation.InlineStyleSheet;
 import com.webforj.component.Composite;
@@ -43,7 +44,6 @@ public class ChatView extends Composite<FlexLayout> implements HasFrameTitle {
   private OpenAiApiService openAiApiService;
   private ChatList chatList;
   private ChatSession currentChatSession;
-
   private ArrayList<Thread> threads = new ArrayList<>();
 
   @Override
@@ -61,10 +61,6 @@ public class ChatView extends Composite<FlexLayout> implements HasFrameTitle {
     var spinner = Application.busy("loading messages");
     spinner.open();
     this.currentChatSession = session;
-    var messages = ChatSessionService
-        .getInstance()
-        .getMessageForSession(session.getId());
-    this.openAiApiService = new OpenAiApiService(messages);
     logger.info("init chat view with sessionId: {}", session.getId());
     this.interruptCurrentThreads();
     self.getComponents().forEach(c -> self.remove(c));
@@ -73,11 +69,17 @@ public class ChatView extends Composite<FlexLayout> implements HasFrameTitle {
         .setSpacing("0")
         .addClassName("chat-view");
 
-    this.chatList = new ChatList(session, messages);
+    this.chatList = new ChatList(session);
     this.self.add(this.chatList);
     var userInput = new PromptInput();
     this.self.add(userInput);
     userInput.onSubmit(this::handleSubmit);
+
+    var messages = ChatSessionService
+        .getInstance()
+        .getMessageForSession(session.getId());
+    this.openAiApiService = new OpenAiApiService(messages);
+    this.chatList.drawMessages(messages);
     spinner.close();
   }
 

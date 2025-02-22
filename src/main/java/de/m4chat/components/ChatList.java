@@ -41,18 +41,14 @@ public class ChatList extends Composite<Div> {
   private Div self = getBoundComponent();
   private ChatSession chatSession;
 
-  private List<ChatMessage> messages;
-
-  public ChatList(ChatSession session, List<ChatMessage> messages) {
+  public ChatList(ChatSession session) {
     this.chatSession = session;
-    this.messages = messages;
     self.addClassName("chat-list");
+    this.setVisible(false);
   }
 
-  @Override
-  protected void onCreate(Window window) {
-    super.onCreate(window);
-    this.drawMessages();
+  private void setVisible(boolean value) {
+    self.setStyle("visibility", value ? "visible" : "hidden");
   }
 
   public void addResponseMessage(ResponseChatItem item) {
@@ -69,12 +65,14 @@ public class ChatList extends Composite<Div> {
     Page.getCurrent().executeJs("scrollToBottom()");
   }
 
-  private void drawMessages() {
-    for (ChatMessage chatMessage : messages)
+  public void drawMessages(List<ChatMessage> messages) {
+    for (ChatMessage chatMessage : messages) {
       if (chatMessage.getType().equals("user")) {
         addMessageUserMessage(new UserChatItem(chatMessage.getContent()));
       } else {
         addResponseMessage(new ResponseChatItem(this.chatSession.getId(), chatMessage.getContent()));
       }
+    }
+    this.setVisible(true);
   }
 }
