@@ -2,16 +2,18 @@ package de.m4chat.components;
 
 import de.m4chat.events.SubmitEvent;
 
+import com.webforj.Page;
 import com.webforj.annotation.InlineStyleSheet;
 import com.webforj.component.Composite;
 import com.webforj.component.Expanse;
 import com.webforj.component.button.Button;
 import com.webforj.component.button.ButtonTheme;
-import com.webforj.component.element.Element;
+import com.webforj.component.html.elements.Div;
 import com.webforj.component.icons.TablerIcon;
 import com.webforj.component.layout.flexlayout.FlexAlignment;
 import com.webforj.component.layout.flexlayout.FlexJustifyContent;
 import com.webforj.component.layout.flexlayout.FlexLayout;
+import com.webforj.component.window.Window;
 
 @InlineStyleSheet(/* css */"""
     .input-component {
@@ -77,20 +79,18 @@ public class PromptInput extends Composite<FlexLayout> {
   private FlexLayout self = getBoundComponent();
   private SubmitEvent submitEvent;
 
-  private Element messageTextField;
+  private Div messageTextField;
 
   public PromptInput() {
-
     self.addClassName("input-component")
         .setAlignment(FlexAlignment.CENTER)
         .setJustifyContent(FlexJustifyContent.CENTER);
 
-    this.messageTextField = new Element("div")
+    this.messageTextField = new Div()
         .setAttribute("contenteditable", "true")
         .setAttribute("role", "textbox")
         .addClassName("prompt-input");
     self.add(messageTextField);
-    this.messageTextField.executeJsAsync("addKeyboardSubmitShortCut()");
 
     var submitButton = new Button("", ButtonTheme.PRIMARY, e -> {
       this.fireSubmitEvent();
@@ -99,6 +99,13 @@ public class PromptInput extends Composite<FlexLayout> {
         .setExpanse(Expanse.XLARGE)
         .addClassName("submit-button");
     self.add(submitButton);
+
+  }
+
+  @Override
+  protected void onCreate(Window window) {
+    super.onCreate(window);
+    Page.getCurrent().executeJsAsync("addKeyboardSubmitShortCut()");
   }
 
   private void fireSubmitEvent() {

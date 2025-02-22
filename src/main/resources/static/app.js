@@ -32,15 +32,17 @@ function highlightCode() {
     return;
   }
   document
-    .querySelectorAll(".chat-list pre code:not(.hljs)")
+    .querySelectorAll("div.chat-list pre code:not(.hljs)")
     .forEach(hljs.highlightElement);
 }
 
 function addKeyboardSubmitShortCut() {
   const input = document.querySelector("div.prompt-input");
+  const button = document.querySelector(".submit-button");
+  console.debug(button);
   input?.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" && event.shiftKey) {
-      document.querySelector(".submit-button")?.click();
+    if (event.key === "Enter" && !event.shiftKey) {
+      button.click();
     }
   });
 }
