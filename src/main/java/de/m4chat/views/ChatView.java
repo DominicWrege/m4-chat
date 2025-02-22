@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import de.m4chat.Application;
 import de.m4chat.components.ChatList;
 import de.m4chat.components.UserChatItem;
 import de.m4chat.models.ChatSession;
@@ -56,6 +58,8 @@ public class ChatView extends Composite<FlexLayout> implements HasFrameTitle {
   }
 
   public void initComponents(ChatSession session) {
+    var spinner = Application.busy("loading messages");
+    spinner.open();
     this.currentChatSession = session;
     var messages = ChatSessionService
         .getInstance()
@@ -76,6 +80,7 @@ public class ChatView extends Composite<FlexLayout> implements HasFrameTitle {
     var userInput = new PromptInput();
     this.self.add(userInput);
     userInput.onSubmit(this::handleSubmit);
+    spinner.close();
   }
 
   private void handleSubmit(String userMessage) {
