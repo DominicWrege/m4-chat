@@ -79,6 +79,7 @@ public class ChatList extends Composite<Div> {
       }
     }
     this.highlightCode();
+    this.scrollToBottom();
     this.setVisible(true);
   }
 }
