@@ -2,13 +2,10 @@ package de.m4chat.components;
 
 import org.commonmark.renderer.html.HtmlRenderer;
 
-import com.webforj.Page;
 import com.webforj.annotation.InlineStyleSheet;
 import com.webforj.component.Composite;
 import com.webforj.component.element.Element;
 import com.webforj.component.html.elements.Div;
-
-import java.util.UUID;
 
 import org.commonmark.node.*;
 import org.commonmark.parser.Parser;
@@ -34,30 +31,25 @@ public class ResponseChatItem extends Composite<Div> {
   private Parser parser = Parser.builder().build();
   private static HtmlRenderer htmlRenderer = HtmlRenderer.builder().escapeHtml(true).build();
   private final String cssClassName = "response-chat-item";
-  private UUID currentSessionId;
 
-  public ResponseChatItem(UUID sessionId) {
-    this.currentSessionId = sessionId;
+  public ResponseChatItem() {
     var self = getBoundComponent();
     self.addClassName(this.cssClassName);
     this.container.add(loadingElement);
     self.add(this.container);
   }
 
-  public ResponseChatItem(UUID sessionId, String text) {
+  public ResponseChatItem(String text) {
     var self = getBoundComponent();
     self.addClassName(this.cssClassName);
     self.add(this.container);
     if (text.isEmpty()) {
       this.container.add(loadingElement);
     }
-    this.AppendText(currentSessionId, text);
+    this.AppendText(text);
   }
 
-  public void AppendText(UUID sessionId, String text) {
-    if (this.currentSessionId != sessionId) {
-      return;
-    }
+  public void AppendText(String text) {
     buffer.append(text);
     Node document = parser.parse(buffer.toString());
     this.container.setHtml(htmlRenderer.render(document));
@@ -65,15 +57,11 @@ public class ResponseChatItem extends Composite<Div> {
   }
 
   public void highlightCode() {
-    this.container.executeJsVoidAsync("highlightCode()");
+    this.container.executeJs("highlightCode()");
   }
 
   public String getText() {
     return this.buffer.toString();
-  }
-
-  public UUID getSessionUuid() {
-    return this.currentSessionId;
   }
 
 }

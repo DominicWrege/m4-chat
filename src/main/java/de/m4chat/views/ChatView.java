@@ -69,7 +69,7 @@ public class ChatView extends Composite<FlexLayout> implements HasFrameTitle {
         .setSpacing("0")
         .addClassName("chat-view");
 
-    this.chatList = new ChatList(session);
+    this.chatList = new ChatList();
     this.self.add(this.chatList);
     var userInput = new PromptInput();
     this.self.add(userInput);
@@ -87,22 +87,24 @@ public class ChatView extends Composite<FlexLayout> implements HasFrameTitle {
     var chatDb = ChatSessionService.getInstance();
     chatDb.insertUserMessage(this.currentChatSession.getId(), userMessage);
     this.chatList.addMessageUserMessage(new UserChatItem(userMessage));
+    var sessionId = this.currentChatSession.getId();
+    var model = UserService.getInstance().getSelectedModel(sessionId);
 
-    var chatItem = new ResponseChatItem(this.currentChatSession.getId());
+    logger.info("[session: {}] Using Model: {}, User Message: {}", sessionId, model, userMessage);
+    var chatItem = new ResponseChatItem();
     this.chatList.addResponseMessage(chatItem);
-    var model = UserService.getInstance().getSelectedModel(this.currentChatSession.getUserId());
-    logger.info("[session: {}] Using Model: {}", chatItem.getSessionUuid(), model);
-    logger.info("[session: {}] User Message: {}", chatItem.getSessionUuid(), userMessage);
     var thread = Thread.startVirtualThread(() -> {
       this.openAiApiService.writeMessage(userMessage, model, (response) -> {
         if (Thread.currentThread().isInterrupted()) {
           return;
         }
-        chatItem.AppendText(this.currentChatSession.getId(), response);
+        if (this.currentChatSession.getId().equals(sessionId)) {
+          chatItem.AppendText(response);
+        }
       });
 
       ChatSessionService.getInstance()
-          .insertResponseMessage(chatItem.getSessionUuid(), chatItem.getText());
+          .insertResponseMessage(sessionId, chatItem.getText());
       chatItem.highlightCode();
 
     });

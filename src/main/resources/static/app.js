@@ -39,7 +39,6 @@ function highlightCode() {
 function addKeyboardSubmitShortCut() {
   const input = document.querySelector("div.prompt-input");
   const button = document.querySelector(".submit-button");
-  console.debug(button);
   input?.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
       button.click();
