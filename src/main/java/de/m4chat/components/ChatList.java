@@ -66,6 +66,10 @@ public class ChatList extends Composite<Div> {
     Page.getCurrent().executeJsVoidAsync("scrollToBottom()");
   }
 
+  private void scrollToBottomInstant() {
+    Page.getCurrent().executeJsVoidAsync("scrollToBottom('instant')");
+  }
+
   private void highlightCode() {
     Page.getCurrent().executeJsVoidAsync("highlightCode()");
   }
@@ -79,7 +83,7 @@ public class ChatList extends Composite<Div> {
       }
     }
     this.highlightCode();
-    this.scrollToBottom();
+    this.scrollToBottomInstant();
     this.setVisible(true);
   }
 }

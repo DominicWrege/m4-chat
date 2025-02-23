@@ -27,19 +27,14 @@ import com.webforj.router.Router;
 import com.webforj.router.history.Location;
 import com.webforj.router.history.ParametersBag;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class ChatSessionsMenu {
-
-  private static final Logger logger = LogManager.getLogger(ChatSessionsMenu.class);
 
   private AppLayout appLayout;
   private AppNav appNav = new AppNav();
   private UserState userState;
   private ChatSessionService chatService = ChatSessionService.getInstance();
 
-  private final String ChatIdKey = "chatId";
+  public static final String ChatIdKey = "chatId";
 
   public ChatSessionsMenu(AppLayout appLayout, UserState userState) {
     this.userState = userState;
@@ -50,7 +45,6 @@ public class ChatSessionsMenu {
     this.setNewChatButton();
     this.appLayout.addToDrawer(this.appNav);
     this.setDeleteAllButton();
-    this.UseNavigationListener();
   }
 
   private void setNewChatButton() {
@@ -91,7 +85,7 @@ public class ChatSessionsMenu {
     Router.getCurrent().navigate(this.newChatIdLocation(session));
   }
 
-  private void rebuildChatMenuItems() {
+  public void rebuildChatMenuItems() {
     this.appNav.getComponents().forEach(this.appNav::remove);
     var sortedChats = this.chatService.getSessionsForUser(this.userState.getUserId());
     for (var chat : sortedChats) {
@@ -109,32 +103,9 @@ public class ChatSessionsMenu {
     appNav.addItem(item);
   }
 
-  private Location newChatIdLocation(ChatSession session) {
+  public Location newChatIdLocation(ChatSession session) {
     return new Location(String.format("/?%s=%s", ChatIdKey,
         session.getId()));
-  }
-
-  private void UseNavigationListener() {
-    Router.getCurrent().addNavigateListener(event -> {
-      var location = event.getLocation();
-      var chatIdParameter = location.getQueryParameters().get(ChatIdKey);
-      logger.info("navigation changed with chatId param: {}", chatIdParameter);
-
-      var sessionId = chatIdParameter.map(UUID::fromString).orElseGet(() -> UUID.randomUUID());
-
-      var session = this.chatService
-          .getOrCreateSession(sessionId, this.userState.getUserId());
-      logger.info("Using existing session: {}", session.getId());
-
-      this.rebuildChatMenuItems();
-
-      Router.getCurrent().getHistory()
-          .replaceState(null, this.newChatIdLocation(session));
-
-      var component = (ChatView) event.getContext().getComponent();
-      component.initComponents(session);
-      Page.getCurrent().executeJs("scrollToBottom('instant')");
-    });
   }
 
 }
