@@ -2,17 +2,13 @@ package de.m4chat.components;
 
 import de.m4chat.models.ChatMessage;
 import de.m4chat.models.ChatSession;
-import de.m4chat.services.ChatSessionService;
-
 import java.util.List;
 
 import com.webforj.Page;
 import com.webforj.annotation.InlineStyleSheet;
 import com.webforj.component.Component;
 import com.webforj.component.Composite;
-import com.webforj.component.element.Element;
 import com.webforj.component.html.elements.Div;
-import com.webforj.component.window.Window;
 
 @InlineStyleSheet(/* css */"""
       .chat-list {
@@ -52,15 +48,19 @@ public class ChatList extends Composite<Div> {
   }
 
   public void addResponseMessage(ResponseChatItem item) {
-    this.addMessage(item);
+    this.addMessageWithScrollToBottom(item);
     Page.getCurrent().executeJsVoidAsync("highlightCode()");
   }
 
   public void addMessageUserMessage(UserChatItem item) {
-    this.addMessage(item);
+    this.addMessageWithScrollToBottom(item);
   }
 
   private void addMessage(Component component) {
+    self.add(component);
+  }
+
+  private void addMessageWithScrollToBottom(Component component) {
     self.add(component);
     Page.getCurrent().executeJs("scrollToBottom()");
   }
@@ -68,9 +68,9 @@ public class ChatList extends Composite<Div> {
   public void drawMessages(List<ChatMessage> messages) {
     for (ChatMessage chatMessage : messages) {
       if (chatMessage.getType().equals("user")) {
-        addMessageUserMessage(new UserChatItem(chatMessage.getContent()));
+        addMessage(new UserChatItem(chatMessage.getContent()));
       } else {
-        addResponseMessage(new ResponseChatItem(this.chatSession.getId(), chatMessage.getContent()));
+        addMessage(new ResponseChatItem(this.chatSession.getId(), chatMessage.getContent()));
       }
     }
     this.setVisible(true);
