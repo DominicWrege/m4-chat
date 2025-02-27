@@ -13,7 +13,6 @@ import de.m4chat.services.OpenAiApiService;
 import de.m4chat.services.UserService;
 import de.m4chat.services.UserState;
 
-import com.webforj.Page;
 import com.webforj.component.Composite;
 import com.webforj.component.html.elements.H1;
 
@@ -32,7 +31,7 @@ import com.webforj.router.event.NavigateEvent;
 @Route
 public class MainLayout extends Composite<AppLayout> {
   private AppLayout self = getBoundComponent();
-  private H1 title = new H1("Chat").setStyle("color", "var(--dwc-color-gray-40)");
+  private H1 title = new H1("Chat");
 
   private UserState userState = new UserState();
 
@@ -52,6 +51,7 @@ public class MainLayout extends Composite<AppLayout> {
   private FlexLayout setHeader() {
     Toolbar toolbar = new Toolbar();
     toolbar.addToStart(new AppDrawerToggle());
+    title.setStyle("color", "var(--dwc-color-gray-40)").setStyle("padding-bottom", "2px");
     toolbar.addToTitle(title);
 
     var toolbarContainer = new FlexLayout().setJustifyContent(FlexJustifyContent.END);

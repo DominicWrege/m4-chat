@@ -1,7 +1,6 @@
 package de.m4chat.components;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 import de.m4chat.models.ChatSession;
 import de.m4chat.services.ChatSessionService;
@@ -9,7 +8,6 @@ import de.m4chat.services.UserState;
 import de.m4chat.util.DateTimeUtil;
 import de.m4chat.views.ChatView;
 
-import com.webforj.Page;
 import com.webforj.component.Expanse;
 import com.webforj.component.button.Button;
 import com.webforj.component.button.ButtonTheme;

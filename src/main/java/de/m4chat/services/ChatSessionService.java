@@ -9,7 +9,6 @@ import de.m4chat.models.ChatSession;
 import java.util.List;
 import java.util.UUID;
 
-import com.basis.server.local.generic.vkeyed.Page;
 
 public class ChatSessionService {
 

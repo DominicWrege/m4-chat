@@ -16,7 +16,6 @@ import de.m4chat.services.OpenAiApiService;
 import de.m4chat.services.UserService;
 import de.m4chat.services.ChatSessionService;
 
-import com.basis.bbj.web.gwt.client.awt.BusyIndicator;
 import com.webforj.Page;
 import com.webforj.annotation.InlineStyleSheet;
 import com.webforj.component.Composite;
