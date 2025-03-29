@@ -1,6 +1,6 @@
-# 🗨️ M4 Chat (powered by webforj)
+# 🗨️ M4 Chat 
 
-An other **ChatGPT** chat UI built with [webforj](https://webforj.com/), **Java 21** and **SQlite**.
+An other **ChatGPT** UI built with [webforj](https://webforj.com/), **Java 21** and **SQlite**.
 
 ## ✈ How to Run
 
