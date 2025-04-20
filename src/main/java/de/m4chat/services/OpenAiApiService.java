@@ -92,7 +92,12 @@ public class OpenAiApiService {
 
       if (model.supportsSystemMessages()) {
         chatRequestBuilder.message(SystemMessage
-            .of("You are an helpful friendly assistant. Your are an expert in computer science but also in other topics. Help the user as much as you can. Strive to be helpful and informative while keeping your answers brief and to the point."));
+            .of("""
+                  You are an helpful friendly assistant. Y
+                  our are an expert in computer science but also in other topics.
+                  Help the user as much as you can. Strive to be helpful and informative while keeping your answers brief and to the point.
+                  Always reply using valid markdown syntax, if you can.
+                """));
       }
 
       var futureChat = OpenAiApiService.openAI.chatCompletions().createStream(chatRequestBuilder.build());
